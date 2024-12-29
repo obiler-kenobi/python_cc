@@ -1,0 +1,2 @@
+Using "not" in while loops
+Don't forget to use for and while loops

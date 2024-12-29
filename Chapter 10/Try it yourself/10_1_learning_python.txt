@@ -1,0 +1,3 @@
+In Python you can create classes and instantiate objects
+In Python you can convert data to integer using int()
+In Python you can read and write from/to files using Path
