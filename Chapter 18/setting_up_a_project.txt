@@ -1,0 +1,442 @@
+# NOTE: When setting up a web application, you first need to describe 
+# the project's goals in a specification, or spec. Once you have a clear 
+# of goals, you can start to identify manageable tasks to achieve those
+# goals.
+
+# NOTE: A full spec details the project goals, describes the project's
+# functionalities, and discusses its appearance and user interface. A 
+# spec should keep you focused and help keep your project on track.
+
+# NOTE: A virtual environment is a place on your system where you can
+# install packages and isolate them from all other Python packages.
+# Separating one project's libraries from other projects is beneficial
+# and will be necessary when we deploy Learning Log to a server in
+# Chapter 20.
+
+# NOTE: Creating a virtual environment using venv
+# python3 -m venv [directory_name]
+
+# NOTE: Activating virtual environment
+# source [directory_name]/bin/activate
+
+# NOTE: Deactivate virtual environment
+# deactivate
+
+# NOTE: Installing Django
+# pip install --upgrade pip
+# pip install django
+
+# NOTE: Because it downloads resources from a variety of sources, pip is
+# upgraded fairly oftern. It's a good idea to upgrade pip whenever you 
+# make a new virtual environment
+
+# Setting up django project
+# django-admin startproject [project directory] .
+
+# NOTE: Do not leave the virtual environment. Don't forget the dot (.)
+# at the end of the syntax or you might run into some configuration
+# issues when you deploy the app. If you forget the dot, delete the
+# files and folders that were created (except the virtual environment)
+# and run the command again.
+
+# NOTE: A new directory will be created and a file called manage.py file
+# will also be created which is a short program that takes in command
+# and feeds them to the relevant part of Django.
+
+# NOTE: The most important files under the Django project directory are
+# 1. settings.py - controls how Django interacts with your system and
+# manages your project.
+# 2. urls.py - tells Django which pages to build in response to browser
+# requests.
+# 3. wsgi.py - helps Django serve the files it creates. It is an
+# acronyn for "Web Server Gateway Interface.
+
+# NOTE: Creating a database
+# python manage.py migrate
+
+# NOTE: Whenever we modify a database using django, we say that we're
+# "migrating" the database. Issuing the migrate command for the first
+# time tells Django to make sure the database matches the current state
+# of the project.
+
+# NOTE: SQLite is a database that runs off a single file; it's ideal for
+# writing simple apps because you won't have to pay much attention to
+# managing the database
+
+# NOTE: Viewing the project
+# python manage.py runserver
+
+# NOTE: Django should start a server called the development server. This
+# will let you view the project on your system to see how well it works.
+# When you request a page by entering a URL in a browser, the Django
+# server respons to that request by building the qppropriate page and
+# sending it to the browser.
+
+# NOTE: A Django project is organized as a group of individual apps that
+# work together to make the project work as a whole.
+
+# NOTE: Starting an App
+# python manage.py startapp learning_logs
+# python manage.py startapp [appname]
+
+# NOTE: The startapp [appname] tells Django to create the infrastructure
+# needed to build an app.
+
+# NOTE: models.py - to define the data we want to manage in the app
+
+# NOTE: Defining models
+# models.py
+# from django.db import models
+
+# NOTE: A model tells Django how to work with the data that will be
+# stored in the app. A model is a class; it has attributes and methods,
+# just like every class we've discussed.
+
+# NOTE: Model - a parent class included in Django that defines the
+# model's basic functionality.
+
+# NOTE: To see the different kinds of fields you can use in a model, see
+# the "Model Field Reference" page at:
+# https://docs.djangoproject.com/en/5.1/ref/models/fields
+
+# NOTE: Activating models
+# To use the models, we need to tell Django to include the app in the
+# project by adding the app in the settings.py under INSTALLED_APPS
+
+# NOTE: Modifying the database so it can store informate related to the
+# created model.
+# python manage.py makemigrations [appname]
+
+# NOTE: The command make migrations tells Django to figure out how to
+# modify the database so it can store the data associated with any new
+# models defined.
+
+# NOTE: Whenever we want to modify the data that our project manages,
+# we'll follow these three steps: modify models.py, call makemigrations
+# on the [appname] and tell Django to migrate the project.
+
+# NOTE: Django Admin Site
+# The Django admin site lets site administrators to easily work through
+# the models.
+
+# NOTE: Setting up a superuser
+# Superuser - has all the privileges available on site
+# Privileges - control the actions users can take
+
+# python manage.py createsuperuser
+
+# NOTE: Registering a model with the Admin Site
+# Models created by the developer needs to be added manually
+
+# To register models with the admin site:
+# from .models import [modelname]
+
+# admin.site.register([modelname])
+# This code imports the model we want to register. The dot in front of
+# models tells Django to look for models.py in the same directory.
+# Lastly, the code admin.site.register() tells Django to manage our
+# model through the admin site.
+
+# NOTE: Cascading delete - when a certain data is deleted, the data
+# referencing to that certain data will also be deleted
+
+# NOTE: Django Shell - an interactive terminall session which is great
+# for testing and troubleshooting projects.
+
+# python manage.py shell
+# This launches a Python interpreter that you can use to explore the
+# data stored in your project's database.
+
+# NOTE: The method [modelname].objects.all() gets all instances of the
+# model. The list that is returned is called a queryset.
+
+# NOTE: Looping through a queryset
+# [variable] = [modelname].objects.all()
+# "use for to loop through the objects"
+
+# [modelname].objects.get([ID])
+# NOTE: If you know the ID of a particular object, you can use this
+# method to retrieve that object and examine any attribute the object 
+# has.
+
+# NOTE: To get data through a foreigh key relationship, you use the
+# lowercase name of the related model followed by an underscore and the
+# word set.
+
+# [variable] = [modelname].objects.all()
+# [variable/model_name].[related_lowercased_modelname]_set.all()
+
+# NOTE: Django application
+# https://docs.djangoproject.com/en/5.1/topics/db/queries
+
+# NOTE: Making Pages
+# Django Web Pages consists of three stages:
+# - Defining URL
+# - Writing Views
+# - Writing Templates
+
+# URL Pattern - describes the way the URL is laid out.
+
+# NOTE: Each URL maps to a particular view.
+# View function - retrieves and processes the data needed for that page.
+# The view function often renders the page using a tamplate
+
+# Template - Contains the overall structure of the page
+
+# NOTE: Mapping a URL
+# Users request pages by entring URLs into a browser and clicking links.
+
+# admin.site.urls - defines all the URLs that can be requested from the
+# admin site.
+
+# include() function 
+
+# NOTE: learning_logs/urls.py
+# app_name variable - helps Django distinguish the urls.py from files of
+# the same name in other apps within the project.
+
+# urlpatterns - list of individual pages that can be requested from the
+# learning_logs app.
+
+# path() function - takes three arguments
+# (1) A string that helps Django route the current request.
+# (2) Specifies which function to call in views.py
+# (3) Provides the name of the function for this URL pattern so it can
+# be refferred to more easily in other files throughout the project.
+
+# NOTE: Writing a view
+# view function - takes in information from a request, prepares the data
+# needed to generate a page, and then sends the data back to the
+# browser.
+
+# NOTE: learning_logs/views.py
+# render() function - renders the response based on the data provided by
+# views.
+
+# NOTE: Writing a template
+# The template defines what the page should look like, and Django fills
+# in the relevant data each time the page is requested. It allows you
+# to access any data provided by the view.
+
+# NOTE: Building Additional Page
+
+# Template Inheritance
+# You can write a base template containing the repated elements and then
+# have each page inherit from the base.
+
+# Parent Template
+# Template tag - indicated by braces and percent signs ({% %})
+# Template tag generates information to be displayed on a page.
+
+# learning_logs/templates/learning_logs/base.html
+# {% 'learning_logs:index' %}
+# This template tag generates a URL matching the URL pattern defined in
+# learning_logs/urls.py with the name 'index'. The learning_logs is the
+# namespace and index is a uniquely named URL pattern in that namespace.
+
+# NOTE: The namespace comes from the value we assigned to app_name in
+# learning_logs/urls.py file.
+
+# Block Tags
+# {% block content %}{% endblock content %}
+# The example above is a block named 'content' which is a placeholder.
+# The child template will define the kind of information that goes in
+# the content block. However, child template doesn't have to define
+# every block from its parent. You can reserve space in parent templates
+# for as many block as you like; the child template uses only as many as
+# it needs.
+
+# The Child Template
+
+# {% extends %}
+# A child template must have an {% extend %} tag on the first line to
+# tell Django which parent template to inherit from.
+
+# The {% endblock %} tag doesn't require a name, but if a template grows
+# to contain multiple blocks, it can be helpful to know exactly which
+# block is ending.
+
+# NOTE: It's common to have one parent template called base.html for the
+# entire site and parent templates for each major section of the site.
+# All the section templates inherit from base.html, and each page in the
+# site inherits from a section template.
+
+# learning_logs/views.py --topics
+# Context - a dictionar in which keys are names we'll use in the
+# template to access the data we want, and the values are the data we
+# we need to send to the template.
+
+# NOTE: When building a page that uses data, we call render() with
+# (1) the request object
+# (2) the template we want to use
+# (3) the context dictionary
+
+# learning_logs/templates/topics.html
+# Every for loop template tag ({% for item in list %}) needs an explicit
+# {% endfor %} tag indicating where the end of the loop occurs.
+
+# To print a variable in a template, wrap the variable name in double
+# braces.
+
+# The {% empty %} template tag tells Django what to do if there are not
+# items in the list. 
+
+# Setting up individual pages
+# get() is used to retrieve a single data on a list using a key.
+
+# The minus sign in ".order_by('-date_added')" sorts the results in
+# reverse order.
+
+# learning_logs/templates/learning_logs/topic.html
+# The vertical line | represents a template filter that modifies the
+# value in a template variable during the rendering process.
+
+# Linebreaks (filter) ensures that long text entries include line breaks
+# in a format understood by browsers, rather than showing a block of
+# uninterrupted text.
+
+# NOTE: Django templates
+# https://docs.djangoproject.com/en/5.1/ref/templates
+
+# NOTE: Allowing users to enter data
+# ModelForm - uses the information from the models defined to build form
+# automatically.
+
+# NOTE: GET and POST requests
+# GET - request used for pages that only read data from the server
+# POST - request used when user needs to submit information through a
+# form
+
+# learning_logs/views.py -> new_topic()
+# When users initially request the page, their browsers will send a GET
+# request. Once the user has filled out and submitted the form, their
+# browser will submit a POST request. Depending on the request, we'll
+# know whether the user is requesting a blank form or asking to process
+# a completed form.
+
+# is_valid() method - checks that all required fields have been filled
+# in and that the data entered matches the field types expected.
+
+# save() - writes the data from the form to the database.
+
+# redirect() - takes in the name of a view and redirects to the page
+# associated with the view.
+
+# learning_logs/templates/new_topic.html
+# action argument - tells the browser where to send the data submitted
+# in the form; in the project it is sent back to the view function
+# new_topic().
+
+# method argument - tells the browser to submit the data as a POST
+# request
+
+# {% csrf_token %} - a Django template tag used to prevent attackers 
+# from using the form to gain unauthorized access to the server.
+
+# as_div - a modifier that tells Django to render all the form elements
+# as HTML <div></div> elements.
+
+# widget attribute - an HTML form element, such as single-line text box,
+# multiline text area, or drop-down list. By including this, you can
+# override Django's default widget choices.
+
+# save(commit=False) - tells Django to create a new object and assign it
+# to a variable without saving it to the database.
+
+# Editing
+# form = EntryForm(instance=entry)
+# The argument "instance=entry" tells Django to create the form, 
+# prefilled with information from the existing entry object.
+
+# form = EntryForm(instance=entry, data=request.POST)
+# These arguments tell Django to create a form instance based on the
+# information associated with the existing entry object, updated with
+# any relevant data from request.POST.
+
+# NOTE: Setting up user accounts
+# Login Page
+# 'django.contril.auth.urls' - includes default URL patterns such as 
+# login and logout.
+
+# When the user requests the login page, Django will use the default
+# view function (for login) but we still need to provide a template for
+# the login page.
+
+# The default authentication views look for templates inside a folder
+# called registration. 
+# e.g. (learning_log/accounts/templates/registration)
+
+# NOTE: A template in one app can be inherit from a template from
+# another app.
+
+# errors attribute - a Django attribute for forms to handle errors.
+
+# LOGIN_REDIRECT_URL - must be included in the settings.py to let 
+# Django know where to send a user after logging in.
+
+# NOTE: Django's authentication system lets the user object be available
+# in every template. It has an is_authenticated attribute set which
+# verify if the user is logged in or not.
+
+# Logout
+# Logout requests should be submitted as POST requests.
+
+# LOGOUT_REDIRECT_URL - must be indluced in the settings.py to let
+# Django know where to send a user after logging out.
+
+# Allowing users to own their data
+# decorator - a directive placed just before a function definition,
+# which modifies how the function behaves.
+
+# @login_required - a decorator used to restrict access to pages by
+# ensuring that only authenticated users are able to access this pages.
+# This decorator/function checks whether a user is logged in.
+
+# Restricting access to appropriate users
+# topics = Topic.objects.filter(owner=request.user)
+# The attribute 'owner=request.user' contains information about the user
+# The syntax above tells Django to retrieve only the objects from the
+# database whose owner attribute matches the current user.
+
+# A 404 response is a standard error response that's returned when a
+# requested resource doesn't exist on a server.
+
+# Bootstrap
+# https://getbootstrap.com
+
+# NOTE: If you want to use custom templates tags from django-bootstrap5,
+# each template will need to include the {% load django_bootstrap %} tag
+
+# NOTE: nav element - opens the code for the navigation bar at the top
+# of the page.
+
+# NOTE: selector - determines which elements on a page a certain style
+# applies to.
+
+# NOTE: div - short for division; you build a web page by dividing it
+# into sections and defining style and behavior rules that apply to that
+# section. Any styling or behavior rules that are defined in an opening
+# div tag affect everything you see unti its corresponding closing tag.
+
+# NOTE: Bootstrap defines navigation elements as items in an unordered
+# list.
+
+# NOTE: span - an element that allows styling of pieces of text or
+# elements of a page that are part of a longer line. They are also
+# continuous within a larger section.
+
+# NOTE: main - an element used for the most significant part of the body
+# of a page.
+
+# NOTE: jumbotron - a bootstrap element which is basically a large box
+# that stands out from the rest of the page. Typically used on home
+# pages to hold a brief description of the overall project.
+
+# NOTE: {% bootstrap_form %} tag inserts Bootstrap style rules into the
+# form's individual elements as the form is rendered.
+
+# NOTE: card - a nestable set of divs with flexible, predefined styles
+# that are perfect for displaying a topic's entries.
+
+# NOTE: Generate list of project requirements
+# pip freeze > requirements.txt
